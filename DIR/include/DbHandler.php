@@ -431,6 +431,29 @@ class DbHandler {
 
 
 
+                  public function get_can_profile($com_id) {
+
+                    $stmt = $this->conn->prepare("SELECT
+                      p.id,p.user_id, p.category_id ,p.profile_pic,p.first_name,p.last_name,p.gender,
+                      p.birth_date, p.address, p.town,p.post_code,p.email,p.phone,p.nationality,
+                      p.insurance_no,p.passport_pic,p.utilitybill_pic,p.resident_pic,p.e_contact_name,
+                      p.e_contact_relation,p.e_contact_phone,p.badge_type,p.badge_number, p.badge_expiry,p.badge_pic,
+                      p.bank_sort_code,p.account_number,p.name_of_account, p.utr_number, p.visa_required, p.uk_driving_licence,
+                      p.status,
+                      c.city_name,
+                      co.country_name
+                      FROM employee_profile p
+                      LEFT JOIN city c ON p.birth_city = c.id
+                      LEFT JOIN country co ON p.country = co.id
+                      WHERE p.user_id='".$com_id."'");
+
+                      $stmt->execute();
+                      $status = $stmt->get_result();
+                      return $status;
+                    }
+
+
+
                   public function get_com_jobs($com_id) {
 
                     $stmt = $this->conn->prepare("SELECT

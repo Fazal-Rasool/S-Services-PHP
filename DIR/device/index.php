@@ -547,6 +547,80 @@ $image_path = 'http://192.168.2.176/sservices/DIR/images/';
 
 
 
+
+// Get Company PROFILE
+
+$app->get('/CanProfile/:com_id'  , function($com_id) use ($app){
+
+$image_path = 'https://aesands.com/images/';
+
+  $db = new DbHandler();
+  $response = array();
+  $user_id = $db->get_can_profile($com_id);
+
+  while($result = $user_id->fetch_assoc())
+  {
+    $tmp = array();
+
+    $tmp['id'] = $result['id'];
+    $tmp['user_id'] = $result['user_id'];
+    $tmp['category_id'] = $result['category_id'];
+    //if($result['company_logo']!=''){$tmp['company_logo'] = $image_path.$result['company_logo'];}else{$tmp['company_logo'] ="";}
+    $tmp['first_name'] = $result['first_name'];
+    $tmp['last_name'] = $result['last_name'];
+    $tmp['gender'] = $result['gender'];
+    $tmp['birth_date'] = $result['birth_date'];
+    $tmp['address'] = $result['address'];
+    $tmp['town'] = $result['town'];
+    $tmp['post_code'] = $result['post_code'];
+
+    $tmp['email'] = $result['email'];
+    $tmp['phone'] = $result['phone'];
+    $tmp['nationality'] = $result['nationality'];
+    $tmp['insurance_no'] = $result['insurance_no'];
+    $tmp['e_contact_name'] = $result['e_contact_name'];
+    $tmp['e_contact_relation'] = $result['e_contact_relation'];
+    $tmp['e_contact_phone'] = $result['e_contact_phone'];
+
+    $tmp['badge_type'] = $result['badge_type'];
+    $tmp['badge_number'] = $result['badge_number'];
+    $tmp['badge_expiry'] = $result['badge_expiry'];
+    $tmp['bank_sort_code'] = $result['bank_sort_code'];
+    $tmp['account_number'] = $result['account_number'];
+    $tmp['name_of_account'] = $result['name_of_account'];
+    $tmp['utr_number'] = $result['utr_number'];
+    $tmp['visa_required'] = $result['visa_required'];
+
+    $tmp['uk_driving_licence'] = $result['uk_driving_licence'];
+    $tmp['status'] = $result['status'];
+
+    $tmp['birth_city'] = $result['city_name'];
+    $tmp['country'] = $result['country_name'];
+    $response = $tmp;
+
+  }
+  if($response != NULL)
+  {
+    $output['error'] = false;
+    $output['message'] = 'Data Found';
+    $output['data'] = $response;
+    echoRespnse(200,$output);
+  }
+  else
+  {
+    $output['error'] = true;
+    $output['message'] = 'Please update your profile first';
+    // $output['data'] = $response;
+    echoRespnse(200,$output);
+  }
+});
+
+
+
+
+
+
+
 // Get Category Jobs
 
 $app->get('/CatJobs/:cat_id'  , function($cat_id) use ($app){
